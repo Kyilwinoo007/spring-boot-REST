@@ -1,10 +1,17 @@
 package com.symbolic.mm.user;
 
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
+
 import java.util.Date;
 
 public class User {
     int id;
+
+    @Size(min = 2,message = "Name should have at least 2 characters")
     String name;
+
+    @Past
     Date dateOfBirth;
 
     public User(int id, String name, Date dateOfBirth) {

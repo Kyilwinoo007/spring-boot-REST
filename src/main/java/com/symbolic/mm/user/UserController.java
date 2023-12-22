@@ -1,13 +1,23 @@
 package com.symbolic.mm.user;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
+import org.springframework.context.MessageSource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import java.net.URI;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 public class UserController {
     @Autowired
     UserDaoService userService;
+
+    @Autowired
+    private MessageSource messageSource;
 
     @GetMapping("/users")
     public List<User> getAllUser(){
@@ -25,9 +35,13 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public int createUser(@RequestBody User user){
+    public ResponseEntity<Object> createUser(@Valid @RequestBody User user){
          User result = userService.insertUser(user);
-         return result.id;
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(result.id).toUri();
+
+       return ResponseEntity.created(location).build();
     }
 
     @GetMapping("/userByName")
@@ -43,5 +57,10 @@ public class UserController {
     @DeleteMapping("/users/{id}")
     public User deleteUserById(@PathVariable int id){
         return userService.deleteUserById(id);
+    }
+
+    @GetMapping("/getMessage")
+    public String getMessage(@RequestHeader(value = "Accept-Language",required = false) Locale locale){
+        return messageSource.getMessage("hello.message", null,locale);
     }
 }
