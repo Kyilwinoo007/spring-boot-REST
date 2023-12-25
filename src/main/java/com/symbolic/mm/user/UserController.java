@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -60,7 +61,7 @@ public class UserController {
     }
 
     @GetMapping("/getMessage")
-    public String getMessage(@RequestHeader(value = "Accept-Language",required = false) Locale locale){
-        return messageSource.getMessage("hello.message", null,locale);
+    public String getMessage(){
+        return messageSource.getMessage("hello.message", null, LocaleContextHolder.getLocale());
     }
 }
