@@ -60,8 +60,13 @@ public class UserController {
         return userService.deleteUserById(id);
     }
 
-    @GetMapping("/getMessage")
+    @GetMapping(value = "/getMessage" , headers = "Api_Version=1")
     public String getMessage(){
         return messageSource.getMessage("hello.message", null, LocaleContextHolder.getLocale());
+    }
+
+    @GetMapping(value = "/getMessage",headers = "Api_Version=2")
+    public String getMessageV2(){
+        return messageSource.getMessage("hello.message", null, LocaleContextHolder.getLocale()) + " version 2";
     }
 }
