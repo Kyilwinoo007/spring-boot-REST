@@ -1,11 +1,26 @@
 package com.symbolic.mm.user;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
+import lombok.*;
+import lombok.NoArgsConstructor;
+
 
 import java.util.Date;
 
+
+@Entity
+@Table(name = "Users")
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
+@ToString
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
 
     @Size(min = 2,message = "Name should have at least 2 characters")
@@ -14,33 +29,7 @@ public class User {
     @Past
     Date dateOfBirth;
 
-    public User(int id, String name, Date dateOfBirth) {
-        this.id = id;
-        this.name = name;
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public int getId() {
-        return id;
-    }
-
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
     }
 }

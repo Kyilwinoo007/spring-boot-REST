@@ -37,11 +37,12 @@ public class UserController {
 
     @PostMapping("/users")
     public ResponseEntity<Object> createUser(@Valid @RequestBody User user){
+
          User result = userService.insertUser(user);
 
+         //localhost:9000/users/{id}
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(result.id).toUri();
-
        return ResponseEntity.created(location).build();
     }
 
@@ -60,6 +61,9 @@ public class UserController {
         return userService.deleteUserById(id);
     }
 
+
+
+    //Localization
     @GetMapping(value = "/getMessage" , headers = "Api_Version=1")
     public String getMessage(){
         return messageSource.getMessage("hello.message", null, LocaleContextHolder.getLocale());
